@@ -1,10 +1,9 @@
-import express from 'express';
-import dotenv from 'dotenv'
-import cors from 'cors'
-import ConnectdB from './Config/db.js';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import ConnectdB from "./Config/db.js";
 import { clerkMiddleware } from "@clerk/express";
-import clerkWebhooks from './Controllers/clerkWebhooks.js';
-import userRoutes from "./Routes/userRoutes.js";
+import clerkWebhooks from "./Controllers/clerkWebhooks.js";
 
 dotenv.config();
 ConnectdB();
@@ -14,19 +13,17 @@ const corsOption = {
   credentials: true,
 };
 
-app.use(cors(corsOption));  // Enable cross orgin resource sharing
-app.use(express.json())
+app.use(cors(corsOption)); // Enable cross orgin resource sharing
+app.use(express.json());
 app.use(clerkMiddleware());
 
-
 // API to liisten clerk WebHooks
-//app.use("/api/clerk",clerkWebhooks)
-app.use("/api/user", userRoutes);
-app.get('/',(req,res)=>res.send("Api Is WOrking here "))
+app.use("/api/clerk", clerkWebhooks);
 
+app.get("/", (req, res) => res.send("Api Is WOrking here Now"));
 
-const PORT =  process.env.PORT || 3000  
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, ()=>{
-    console.log(`Server is running on Port ${PORT}`); 
-})
+app.listen(PORT, () => {
+  console.log(`Server is running on Port ${PORT}`);
+});
