@@ -13,7 +13,7 @@ export const AppProvider = ({ children }) => {
   const [isOwner, setIsOwner] = useState(false);
   const [showHotelReg, setShowHotelReg] = useState(false);
   const [searchedCities, setSearchedhCities] = useState([]);
-  const [room,setRoom] =   useState([]);
+  const [room, setRoom] = useState([]);
   const [showProfile, setShowProfile] = useState(false);
 
   const fetchRoom = async () => {
@@ -34,7 +34,6 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-
   useEffect(() => {
     if (user) {
       fetchRoom();
@@ -44,10 +43,6 @@ export const AppProvider = ({ children }) => {
       }
     }
   }, [user]);
-  
-      
-
-
 
   // const fetchUser = ()=>{
   //     try {
