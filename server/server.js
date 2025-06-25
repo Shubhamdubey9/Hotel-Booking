@@ -14,7 +14,7 @@ dotenv.config();
 ConnectdB();
 const app = express();
 const corsOption = {
-  origin: "http://localhost:5173", // Corrected URL
+  origin:  ["http://localhost:5173","https://hotel-booking-frontend-0n2t.onrender.com"],// Corrected URL
   credentials: true,
 };
 
