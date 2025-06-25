@@ -1,7 +1,4 @@
-// 
-
-
-
+//
 
 // src/components/Auth/Login.jsx
 import React, { useState } from "react";
@@ -9,14 +6,15 @@ import { Label } from "@radix-ui/react-label";
 import { RadioGroup } from "../ui/radio-group";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 import NavBar from "../NavBar";
+import { useAppContext } from "@/context/useAppContext";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -25,9 +23,8 @@ const Login = () => {
     role: "",
   });
 
-  const loading = useSelector((store) => store.auth.loading);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { navigate, loading } = useAppContext();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });

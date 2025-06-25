@@ -2,17 +2,17 @@ import { assets } from "@/assets/assets";
 import Title from "@/components/Title";
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/context/useAppContext";
-import { setLoading } from "@/Redux/AuthSlice";
+import { setLoading } from "@/redux/authSlice";
 import { ROOM_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const AddRoom = () => {
-  const { navigate } = useAppContext();
-  const loading = useSelector((state) => state.auth.loading);
+  const { navigate, loading } = useAppContext();
+
   const dispatch = useDispatch();
 
   const [images, setImages] = useState({

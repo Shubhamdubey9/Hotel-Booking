@@ -10,6 +10,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
+   const loading = useSelector((store) => store.auth.loading);
   const [isOwner, setIsOwner] = useState(false);
   const [showHotelReg, setShowHotelReg] = useState(false);
   const [searchedCities, setSearchedhCities] = useState([]);
@@ -61,6 +62,7 @@ export const AppProvider = ({ children }) => {
   const value = {
     navigate,
     user,
+    loading,
     isOwner,
     setIsOwner,
     showHotelReg,

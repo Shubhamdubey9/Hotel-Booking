@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
-import { logout } from "@/Redux/AuthSlice";
+import { logout } from "@/redux/authSlice";
 import { toast } from "sonner";
 import { Hotel, LogOut, User2 } from "lucide-react";
 import { useAppContext } from "@/context/useAppContext";
@@ -191,7 +191,11 @@ const NavBar = () => {
                 </div>
                 <div className="flex w-fit items-center gap-1 cursor-pointer">
                   <User2 />
-                  <Button variant="Link" className="font-bold text-xl" onClick={() => navigate("/view-profile")}>
+                  <Button
+                    variant="Link"
+                    className="font-bold text-xl"
+                    onClick={() => navigate("/view-profile")}
+                  >
                     View Profile
                   </Button>
                 </div>

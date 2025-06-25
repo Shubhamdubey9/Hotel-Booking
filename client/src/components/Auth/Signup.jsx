@@ -3,14 +3,15 @@ import { Label } from "@radix-ui/react-label";
 import { RadioGroup } from "../ui/radio-group";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import { toast } from "sonner";
-import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "@/Redux/AuthSlice";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/redux/authSlice"; // ✅ FIXED HERE
 import { Loader2 } from "lucide-react";
 import NavBar from "../NavBar";
+import { useAppContext } from "@/context/useAppContext";
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -22,9 +23,8 @@ const Signup = () => {
     file: null,
   });
 
-  const navigate = useNavigate();
+  const { loading, navigate } = useAppContext();
   const dispatch = useDispatch();
-  const loading = useSelector((store) => store.auth.loading);
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -45,7 +45,6 @@ const Signup = () => {
     if (input.file) {
       formData.append("file", input.file);
     }
-    
 
     try {
       dispatch(setLoading(true));
@@ -170,17 +169,17 @@ const Signup = () => {
               onChange={changeFileHandler}
             />
           </div>
-        
-           <Button type="submit" className="w-full mt-4" disabled={loading}>
-                     {loading ? (
-                       <>
-                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                         Signing in...
-                       </>
-                     ) : (
-                       "Signin"
-                     )}
-                   </Button>
+
+          <Button type="submit" className="w-full mt-4" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              "Signin"
+            )}
+          </Button>
           <p className="text-center text-sm mt-6">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-600 hover:underline">
