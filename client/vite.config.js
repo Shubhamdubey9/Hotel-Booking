@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": "http://localhost:5000", // proxy /api calls to your backend server
+      "/api": "https://hotel-booking-backend-ucf7.onrender.com", // proxy /api calls to your backend server
     },
   },
 });
