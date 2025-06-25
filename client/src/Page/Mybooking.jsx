@@ -1,10 +1,48 @@
 import Title from "@/components/Title";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { userBookingsDummyData } from "../assets/assets/";
 import { assets } from "@/assets/assets";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { BOOKING_API_END_POINT } from "@/utils/constant";
+import { toast } from "sonner";
+import { useAppContext } from "@/context/useAppContext";
 
 const Mybooking = () => {
-  const [bookings, setBookings] = useState(userBookingsDummyData);
+  const [bookings, setBookings] = useState([]);
+  const { user } = useAppContext();
+
+  const fetchBookings = async () => {
+    if (!user || !user._id) {
+      setBookings([]);
+      return;
+    }
+    try {
+      const response = await axios.post(
+        `${BOOKING_API_END_POINT}/user`,
+        { userId: user._id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (response.data && Array.isArray(response.data.bookings)) {
+        setBookings(response.data.bookings);
+        if (response.data.message) toast.success(response.data.message);
+      } else {
+        setBookings([]);
+      }
+    } catch (error) {
+      setBookings([]);
+      toast.error(error?.response?.data?.message || error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, [user]);
 
   return (
     <div className="py-24 px-4 md:px-16 lg:px-24 xl:px-32 bg-white min-h-screen">
@@ -22,7 +60,7 @@ const Mybooking = () => {
           <div className="text-right">Payment</div>
         </div>
 
-        {bookings.map((booking) => (
+        {(Array.isArray(bookings) ? bookings : []).map((booking) => (
           <div
             key={booking._id}
             className="grid grid-cols-1 md:grid-cols-[3fr_2fr_1fr] gap-6 border-t py-6 text-gray-700 md:border-b"
@@ -56,11 +94,11 @@ const Mybooking = () => {
                       alt="guests"
                       className="w-4 h-4"
                     />
-                    <span>Guests: {booking.guests}</span>
+                    <span>Guests: {booking.guest}</span>
                   </div>
                 </div>
                 <p className="text-base font-medium mt-2">
-                  Total: ${booking.totalPrice}
+                  Total: ₹{booking.totalPrice}
                 </p>
               </div>
             </div>

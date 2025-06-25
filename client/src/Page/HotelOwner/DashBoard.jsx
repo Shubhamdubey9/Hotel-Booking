@@ -1,4 +1,4 @@
-import { assets, dashboardDummyData } from "@/assets/assets";
+import { assets } from "@/assets/assets";
 import Title from "@/components/Title";
 import {
   Table,
@@ -9,11 +9,48 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { BOOKING_API_END_POINT } from "@/utils/constant";
+import axios from "axios";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const DashBoard = () => {
-  const [dashBoard, setDashBoard] = useState(dashboardDummyData);
+  const user = useSelector((state) => state.auth.user);
+
+  const [dashBoard, setDashBoard] = useState({
+    bookings: [],
+    totalBookings: 0,
+    totalRevenue: 0,
+  });
+
+  const fetchDashBoardData = async () => {
+    try {
+      const res = await axios.post(`${BOOKING_API_END_POINT}/hotel`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        toast.success(res?.data?.message);
+        console.log(res.data.dashBoard);
+        setDashBoard(res.data.dashBoard);
+      } else {
+        toast.error(res?.data?.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchDashBoardData();
+    }
+  }, [user]);
+
   return (
     <div>
       <Title
@@ -72,16 +109,16 @@ const DashBoard = () => {
             {dashBoard.bookings.map((item, index) => (
               <TableRow key={index}>
                 <TableCell className="py-3 px-4 text-gray-700 border-t border-gray-300">
-                  {item.user.username}
+                  {item.user.fullname}
                 </TableCell>
                 <TableCell className="py-3 px-4 text-gray-700 border-t border-gray-300">
                   {item.room.roomType}
                 </TableCell>
                 <TableCell className="py-3 px-4 text-gray-700 border-t border-gray-300">
-                  ${item.totalPrice}
+                  {item.totalPrice}
                 </TableCell>
                 <TableCell className="text-right py-3 px-4 text-gray-700 border-t border-gray-300">
-                  {item.status}
+                  {item.Status}
                 </TableCell>
               </TableRow>
             ))}

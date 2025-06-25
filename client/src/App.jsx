@@ -11,21 +11,32 @@ import Layout from "./Page/HotelOwner/Layout";
 import DashBoard from "./Page/HotelOwner/DashBoard";
 import AddRoom from "./Page/HotelOwner/AddRoom";
 import ListRoom from "./Page/HotelOwner/ListRoom";
+import Signup from "./components/Auth/Signup";
+import Login from "./components/Auth/Login";
+import { useAppContext } from "./context/useAppContext";
+import { Toaster } from "sonner";
+import ViewProfile from "./components/ViewProfile";
+
 const App = () => {
   const isOwnerPath = useLocation().pathname.includes("owner");
+  const { showHotelReg } = useAppContext();
   return (
     <div>
+      <Toaster />
       {!isOwnerPath && <NavBar />}
-      {false && <HotelReg />}
+      {showHotelReg && <HotelReg />}
       <div className="min-h-[70vh]">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/rooms" element={<AllRoom />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/rooms/:id" element={<RoomDetails />} />
+          <Route path="/view-profile" element={<ViewProfile />}  />
           <Route path="/my-booking" element={<Mybooking />} />
           <Route path="/owner" element={<Layout />}>
             <Route index element={<DashBoard />} />
-            <Route path="add-room" element={<AddRoom/>} />
+            <Route path="add-room" element={<AddRoom />} />
             <Route path="list-room" element={<ListRoom />} />
           </Route>
         </Routes>

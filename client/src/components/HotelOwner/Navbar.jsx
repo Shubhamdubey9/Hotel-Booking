@@ -1,5 +1,5 @@
 import { assets } from '@/assets/assets'
-import { UserButton } from '@clerk/clerk-react'
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -9,7 +9,7 @@ const Navbar = () => {
     <Link to='/'>
     <img src={assets.logo} alt=""  className='h-9 invert opacity-80'/>
     </Link>
-    <UserButton /> 
+    
     </div>
   )
 }

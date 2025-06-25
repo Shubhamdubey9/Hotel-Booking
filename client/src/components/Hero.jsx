@@ -1,7 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { assets, cities } from "../assets/assets";
+import { useAppContext } from "@/context/useAppContext";
+import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constant";
 
 const Hero = () => {
+  const { navigate, setSearchedhCities } = useAppContext();
+  const [destination, setDestination] = useState("");
+
+  const onSearch = async (e) => {
+    e.preventDefault();
+    navigate(`/rooms?destination=${destination}`);
+    try {
+      // call api to save searched cities
+      const res = await axios.post(
+        `${USER_API_END_POINT}/store-recent-city`,
+        { recentSearchCity: destination },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        setSearchedhCities((prevCities = []) => {
+          const updatedCities = [...prevCities, destination];
+          if (updatedCities.length > 3) {
+            updatedCities.shift(); // Remove the oldest city if more than 3
+          }
+          return updatedCities;
+        });
+      }
+    } catch (error) {
+      // Optionally handle error (e.g., show toast)
+    }
+  };
   return (
     <div
       className="flex flex-col items-center justify-center text-center text-white h-screen
@@ -22,7 +56,10 @@ const Hero = () => {
       </p>
 
       {/* Search Form */}
-      <form className="bg-white mt-8 text-gray-600 rounded-xl px-6 py-5 flex flex-col md:flex-row items-stretch md:items-end gap-4 w-full max-w-4xl shadow-lg">
+      <form
+        onSubmit={onSearch}
+        className="bg-white mt-8 text-gray-600 rounded-xl px-6 py-5 flex flex-col md:flex-row items-stretch md:items-end gap-4 w-full max-w-4xl shadow-lg"
+      >
         {/* Destination */}
         <div className="flex-1">
           <label
@@ -33,6 +70,8 @@ const Hero = () => {
             Destination
           </label>
           <input
+            onChange={(e) => setDestination(e.target.value)}
+            value={destination}
             list="destinations"
             id="destinationInput"
             type="text"

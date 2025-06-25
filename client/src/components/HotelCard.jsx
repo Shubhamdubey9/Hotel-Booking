@@ -29,7 +29,7 @@ const HotelCard = ({ room, index }) => {
         <div className="p-4 space-y-3">
           <div className="flex justify-between items-start">
             <h3 className="text-lg md:text-xl font-semibold text-gray-800 font-playfair line-clamp-1">
-              {room.hotel.name}
+              {room.hotel?.name}
             </h3>
             <div className="flex items-center gap-1 text-yellow-500">
               <img src={assets.starIconFilled} alt="star" className="w-4 h-4" />
@@ -43,14 +43,16 @@ const HotelCard = ({ room, index }) => {
               alt="location"
               className="w-4 h-4"
             />
-            <span className="line-clamp-1">{room.hotel.address}</span>
+            <span className="line-clamp-1">
+              {room.hotel?.address || "No address available"}
+            </span>
           </div>
 
           <div className="flex justify-between items-center mt-2">
             <p className="text-base text-gray-800">
               <span className="text-lg font-semibold">
-                ${room.pricePerNight}
-              </span>  
+                ₹{room.pricePerNight}
+              </span>
             </p>
             <button className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-amber-50 transition">
               Book Now
