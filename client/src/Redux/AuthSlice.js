@@ -43,7 +43,9 @@ const authSlice = createSlice({
       state.user = action.payload;
       try {
         localStorage.setItem("user", JSON.stringify(action.payload));
-      } catch {}
+      } catch(error) {
+        console.log(error.message)
+      }
     },
     logout: (state) => {
       state.user = null;
