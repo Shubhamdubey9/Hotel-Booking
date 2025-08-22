@@ -14,9 +14,13 @@ dotenv.config();
 ConnectdB();
 const app = express();
 const corsOption = {
-  origin:  ["http://localhost:5173","https://hotel-booking-frontend-0n2t.onrender.com"],// Corrected URL
+  origin: [
+    "http://localhost:5173",
+    "https://hotel-booking-frontend-0n2t.onrender.com",
+  ],
   credentials: true,
 };
+
 
 app.use(cors(corsOption)); // Enable cross orgin resource sharing
 app.use(express.json());
@@ -25,7 +29,11 @@ app.use(express.urlencoded({ extended: true }));
 //app.use(clerkMiddleware());
 app.use(cookieParser());
 app.use((req, res, next) => {
-  console.log("Request origin:", req.headers.origin);
+  if (req.headers.origin) {
+    console.log("Request origin:", req.headers.origin);
+  } else {
+    console.log("Request origin not present");
+  }
   next();
 });
 
