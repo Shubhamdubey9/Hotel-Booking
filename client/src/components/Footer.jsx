@@ -77,13 +77,13 @@ const Footer = () => {
               placeholder="Your email"
             />
             <button className="flex items-center justify-center bg-black h-9 w-9 aspect-square rounded-r">
-              {/* Arrow icon */}
-           <img src={assets.arrowIcon} alt="" className='w-3.5 invert'/>
+              <img src={assets.arrowIcon} alt="" className='w-3.5 invert'/>
             </button>
           </div>
         </div>
       </div>
       <hr className="border-gray-300 mt-8" />
+      
       <div className="flex flex-col md:flex-row gap-2 items-center justify-between py-5">
         <p>© {new Date().getFullYear()} Brand. All rights reserved.</p>
         <ul className="flex items-center gap-4">
